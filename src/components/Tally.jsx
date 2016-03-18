@@ -1,0 +1,38 @@
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
+export default React.createClass({
+  mixins: [PureRenderMixin],
+  getPair: function () {
+    return this.props.pair || [];
+  },
+  getVotes: function (entry) {
+    var tally = this.props.tally;
+    if (tally && tally.has(entry)) {
+      return tally.get(entry);
+    }
+    return 0;
+  },
+  render: function () {
+    return <div className="results">
+      <div className="tally">
+        {this.getPair().map(entry =>
+          <div key={entry} className="entry">
+            <h1>{entry}</h1>
+            <div className="voteCount">
+              {this.getVotes(entry)}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="management">
+        <button ref="next"
+                className="next"
+                onClick={this.props.next}>
+          Next
+        </button>
+      </div>
+    </div>;
+  }
+});
