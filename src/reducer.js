@@ -24,6 +24,7 @@ function vote(state, entry) {
 }
 
 export default function (state = Map(), action) {
+  console.log(action);
   switch (action.type) {
     case 'SET_STATE':
       return resetVote(setState(state, action.state));
