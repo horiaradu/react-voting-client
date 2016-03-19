@@ -38,7 +38,7 @@ describe('Voting', () => {
   it('disables buttons when user has voted', () => {
     const component = renderIntoDocument(
       <Voting pair={["Trainspotting", "28 Days Later"]}
-              hasVoted="Trainspotting" />
+              myVote={{id: 1, entry: "Trainspotting"}}/>
     );
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
 
@@ -50,7 +50,7 @@ describe('Voting', () => {
   it('adds label to the voted entry', () => {
     const component = renderIntoDocument(
       <Voting pair={["Trainspotting", "28 Days Later"]}
-              hasVoted="Trainspotting" />
+              myVote={{id: 1, entry: "Trainspotting"}}/>
     );
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
 
@@ -59,7 +59,7 @@ describe('Voting', () => {
 
   it('renders just the winner when there is one', () => {
     const component = renderIntoDocument(
-      <Voting winner="Trainspotting" />
+      <Voting winner="Trainspotting"/>
     );
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
     expect(buttons.length).to.equal(0);
@@ -73,7 +73,7 @@ describe('Voting', () => {
     const pair = ['Trainspotting', '28 Days Later'];
     const container = document.createElement('div');
     let component = ReactDOM.render(
-      <Voting pair={pair} />,
+      <Voting pair={pair}/>,
       container
     );
 
@@ -82,7 +82,7 @@ describe('Voting', () => {
 
     pair[0] = 'Sunshine';
     component = ReactDOM.render(
-      <Voting pair={pair} />,
+      <Voting pair={pair}/>,
       container
     );
     firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
@@ -93,7 +93,7 @@ describe('Voting', () => {
     const pair = List.of('Trainspotting', '28 Days Later');
     const container = document.createElement('div');
     let component = ReactDOM.render(
-      <Voting pair={pair} />,
+      <Voting pair={pair}/>,
       container
     );
 
@@ -102,7 +102,7 @@ describe('Voting', () => {
 
     const newPair = pair.set(0, 'Sunshine');
     component = ReactDOM.render(
-      <Voting pair={newPair} />,
+      <Voting pair={newPair}/>,
       container
     );
     firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];

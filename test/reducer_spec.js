@@ -12,7 +12,8 @@ describe('reducer', () => {
       state: fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {Trainspotting: 1}
+          tally: {Trainspotting: 1},
+          id: 1
         }
       })
     };
@@ -21,7 +22,8 @@ describe('reducer', () => {
     expect(nextState).to.equal(fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       }
     }));
   });
@@ -33,7 +35,8 @@ describe('reducer', () => {
       state: {
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {Trainspotting: 1}
+          tally: {Trainspotting: 1},
+          id: 1
         }
       }
     };
@@ -42,7 +45,8 @@ describe('reducer', () => {
     expect(nextState).to.equal(fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       }
     }));
   });
@@ -53,7 +57,8 @@ describe('reducer', () => {
       state: {
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {Trainspotting: 1}
+          tally: {Trainspotting: 1},
+          id: 1
         }
       }
     };
@@ -62,24 +67,30 @@ describe('reducer', () => {
     expect(nextState).to.equal(fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       }
     }));
   });
 
-  it('removes hasVoted on SET_STATE if pair changes', () => {
+  it('removes myVote on SET_STATE if round id changes', () => {
     const initialState = fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       },
-      hasVoted: 'Trainspotting'
+      myVote: {
+        id: 1,
+        entry: 'Trainspotting'
+      }
     });
     const action = {
       type: 'SET_STATE',
       state: {
         vote: {
-          pair: ['Sunshine', 'Slumdog Millionaire']
+          pair: ['Sunshine', 'Slumdog Millionaire'],
+          id: 2
         }
       }
     };
@@ -87,16 +98,18 @@ describe('reducer', () => {
 
     expect(nextState).to.equal(fromJS({
       vote: {
-        pair: ['Sunshine', 'Slumdog Millionaire']
+        pair: ['Sunshine', 'Slumdog Millionaire'],
+        id: 2
       }
     }));
   });
 
-  it('handles VOTE by setting hasVoted', () => {
+  it('handles VOTE by setting myVote', () => {
     const state = fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       }
     });
     const action = {type: 'VOTE', entry: 'Trainspotting'};
@@ -105,9 +118,13 @@ describe('reducer', () => {
     expect(nextState).to.equal(fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       },
-      hasVoted: 'Trainspotting'
+      myVote: {
+        id: 1,
+        entry: 'Trainspotting'
+      }
     }));
   });
 
@@ -115,7 +132,8 @@ describe('reducer', () => {
     const state = fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
       }
     });
     const action = {type: 'VOTE', entry: 'Sunshine'};
@@ -124,7 +142,36 @@ describe('reducer', () => {
     expect(nextState).to.equal(fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        id: 1
+      }
+    }));
+  });
+
+  it('does nothing for VOTE if already voted in that round', () => {
+    const state = fromJS({
+      vote: {
+        pair: ['Trainspotting', '28 Days Later'],
+        tally: {Trainspotting: 1},
+        id: 1
+      },
+      myVote: {
+        entry: 'Trainspotting',
+        id: 1
+      }
+    });
+    const action = {type: 'VOTE', entry: '28 Days Later'};
+    const nextState = reducer(state, action);
+
+    expect(nextState).to.equal(fromJS({
+      vote: {
+        pair: ['Trainspotting', '28 Days Later'],
+        tally: {Trainspotting: 1},
+        id: 1
+      },
+      myVote: {
+        entry: 'Trainspotting',
+        id: 1
       }
     }));
   });
