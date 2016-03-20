@@ -7,10 +7,10 @@ export default React.createClass({
     return this.props.pair || [];
   },
   isDisabled: function () {
-    return !!this.props.myVote;
+    return !!this.props.myVoteRound;
   },
   hasVotedFor: function (entry) {
-    return this.props.myVote && this.props.myVote.entry === entry;
+    return this.props.myVoteEntry && this.props.myVoteEntry === entry;
   },
   render: function () {
     return <div className="voting">

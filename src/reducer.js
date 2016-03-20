@@ -6,7 +6,7 @@ function setState(state, newState) {
 
 function resetVote(state) {
   const roundId = state.getIn(['myVote', 'id']);
-  const currentRoundId = state.getIn(['vote', 'id'], 0);
+  const currentRoundId = state.getIn(['vote', 'id']);
   if (roundId !== currentRoundId) {
     return state.remove('myVote');
   } else {
