@@ -38,8 +38,7 @@ describe('Voting', () => {
   it('disables buttons when user has voted', () => {
     const component = renderIntoDocument(
       <Voting pair={["Trainspotting", "28 Days Later"]}
-              myVoteRound={1}
-              myVoteEntry={"Trainspotting"}/>
+              hasVoted={"Trainspotting"}/>
     );
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
 
@@ -51,8 +50,7 @@ describe('Voting', () => {
   it('adds label to the voted entry', () => {
     const component = renderIntoDocument(
       <Voting pair={["Trainspotting", "28 Days Later"]}
-              myVoteRound={1}
-              myVoteEntry={"Trainspotting"}/>
+              hasVoted={"Trainspotting"}/>
     );
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
 
