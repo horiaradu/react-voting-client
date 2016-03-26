@@ -104,7 +104,7 @@ describe('reducer', () => {
     }));
   });
 
-  it('removes does not remove myVote on SET_STATE if round id remains the same', () => {
+  it('does not remove myVote on SET_STATE if round id remains the same', () => {
     const initialState = fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
@@ -129,6 +129,45 @@ describe('reducer', () => {
     const nextState = reducer(initialState, action);
 
     expect(nextState).to.equal(initialState);
+  });
+
+  it("adds myVote if the state contains the user's vote", () => {
+    const initialState = fromJS({
+      clientId: '42'
+    });
+
+    const action = {
+      type: 'SET_STATE',
+      state: {
+        vote: {
+          votes: {
+            '42': 'Trainspotting',
+            '23': '28 Days Later'
+          },
+          pair: ['Trainspotting', '28 Days Later'],
+          tally: {Trainspotting: 1, '28 Days Later': 1},
+          id: 1
+        }
+      }
+    };
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      clientId: '42',
+      vote: {
+        votes: {
+          '42': 'Trainspotting',
+          '23': '28 Days Later'
+        },
+        pair: ['Trainspotting', '28 Days Later'],
+        tally: {Trainspotting: 1, '28 Days Later': 1},
+        id: 1
+      },
+      myVote: {
+        id: 1,
+        entry: 'Trainspotting'
+      }
+    }));
   });
 
   it('handles VOTE by setting myVote', () => {
@@ -175,7 +214,7 @@ describe('reducer', () => {
     }));
   });
 
-  it('does nothing for VOTE if already voted in that round', () => {
+  it('overrides the previous vote if already voted in that round', () => {
     const state = fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
@@ -197,9 +236,20 @@ describe('reducer', () => {
         id: 1
       },
       myVote: {
-        entry: 'Trainspotting',
+        entry: '28 Days Later',
         id: 1
       }
+    }));
+  });
+
+  it('handles SET_CLIENT_ID', () => {
+    const initialState = Map();
+    const action = {type: 'SET_CLIENT_ID', clientId: '1234'};
+    
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      clientId: '1234'
     }));
   });
 });
