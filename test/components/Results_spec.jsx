@@ -43,6 +43,22 @@ describe('Results', () => {
     expect(nextInvoked).to.equal(true);
   });
 
+  it('invokes the restart callback when restart button is clicked', () => {
+    let restartInvoked = false;
+    const restart = () => restartInvoked = true;
+
+    const pair = List.of('Trainspotting', '28 Days Later');
+    const component = renderIntoDocument(
+      <Results pair={pair}
+               tally={Map()}
+               restart={restart}/>
+    );
+    const buttons = scryRenderedDOMComponentsWithClass(component, 'restart');
+    Simulate.click(buttons[0]);
+
+    expect(restartInvoked).to.equal(true);
+  });
+
   it('renders the winner when there is one', () => {
     const component = renderIntoDocument(
       <Results winner="Trainspotting"

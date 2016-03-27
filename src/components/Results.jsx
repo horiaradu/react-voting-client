@@ -11,7 +11,8 @@ export const Results = React.createClass({
     return <div>{
       this.props.winner ?
         <Winner ref="winner" winner={this.props.winner}/> :
-        <Tally ref="tally" tally={this.props.tally} next={this.props.next} pair={this.props.pair}/>
+        <Tally ref="tally" tally={this.props.tally} next={this.props.next} pair={this.props.pair}
+               restart={this.props.restart}/>
     }</div>;
   }
 });

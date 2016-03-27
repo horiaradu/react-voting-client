@@ -20,6 +20,13 @@ export function next() {
   };
 }
 
+export function restart() {
+  return {
+    meta: {remote: true},
+    type: 'RESTART'
+  };
+}
+
 export function setClientId(clientId) {
   return {
     type: 'SET_CLIENT_ID',
