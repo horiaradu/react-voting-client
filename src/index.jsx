@@ -8,7 +8,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './reducer';
 import io from 'socket.io-client';
-import {setClientId, setState} from './action_creators';
+import {setClientId, setState, setConnectionState} from './action_creators';
 import getClientId from './client_id';
 import remoteActionMiddleware from './remote_action_middleware';
 
@@ -23,6 +23,18 @@ store.dispatch(setClientId(getClientId()));
 
 socket.on('state', state =>
   store.dispatch(setState(state))
+);
+
+[
+  'connect',
+  'connect_error',
+  'connect_timeout',
+  'reconnect',
+  'reconnecting',
+  'reconnect_error',
+  'reconnect_failed'
+].forEach(ev =>
+  socket.on(ev, () => store.dispatch(setConnectionState(ev, socket.connected)))
 );
 
 const routes = <Route component={App}>

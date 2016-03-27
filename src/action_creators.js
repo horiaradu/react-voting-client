@@ -30,6 +30,14 @@ export function restart() {
 export function setClientId(clientId) {
   return {
     type: 'SET_CLIENT_ID',
-    clientId: clientId
+    clientId
+  };
+}
+
+export function setConnectionState(connectionState, connected) {
+  return {
+    type: 'SET_CONNECTION_STATE',
+    connectionState,
+    connected
   };
 }

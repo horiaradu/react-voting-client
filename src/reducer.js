@@ -54,6 +54,14 @@ function setClientId(state, clientId) {
   return state.set('clientId', clientId);
 }
 
+function setConnectionState(state, connectionState, connected) {
+  return state.set('connection', Map({
+    state: connectionState,
+    connected
+  }));
+}
+
+
 export default function (state = Map(), action) {
   switch (action.type) {
     case 'SET_STATE':
@@ -62,6 +70,8 @@ export default function (state = Map(), action) {
       return vote(state, action.entry);
     case 'SET_CLIENT_ID':
       return setClientId(state, action.clientId);
+    case 'SET_CONNECTION_STATE':
+      return setConnectionState(state, action.connectionState, action.connected);
   }
   return state;
 }
